@@ -2,10 +2,13 @@ import React from "react";
 import { TextField, Button, TableBody, TableRow, TableCell, TableContainer, Table, Alert } from '@mui/material';
 
 interface SearchComponentProps {
+    /** Returns back the value from the parent component*/
     onSubmit: (x: number, y: number, direction: string) => void;
+    /** Maximum input for the coordinates. This is based on the size of the grid (e.g 5x5) */
     maxInput: number;
 }
 
+/** Ui component to pass coordinates and direction to face */
 export default function SearchComponent(params: SearchComponentProps) {
     const [hasNumericalError, setHasNumericalError] = React.useState(false);
     const [hasDirectionError, setHasDirectionError] = React.useState(false);
@@ -28,7 +31,7 @@ export default function SearchComponent(params: SearchComponentProps) {
             setHasNumericalError(true);
             return;
         }
-        if(validDirections.some(p => p === direction) == false) {
+        if(validDirections.some(p => p === direction.toLowerCase()) == false) {
             setHasDirectionError(true);
             return;
         }

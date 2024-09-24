@@ -5,18 +5,24 @@ import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import Box from '@mui/material/Box';
 import { TableBody } from "@mui/material";
+import arrow from '../arrow.svg';
 
 interface GridComponentProps {
+    /** size of table/matrix */
     boxSize: number;
+    /** x coordinate */
     x: number;
+    /** y coordinate */
     y: number;
+    /** direction the object is facing */
     direction: string;
 }
 
+/** Ui component to locate coordinates and set object's(arrow) direction */
 export default function GridComponent(params: GridComponentProps) {
     const boxLayout = [];
     const cellRefs: any = React.useRef([]);
-    const [xyDirection, setXYDirection] = React.useState<[[number, number], string]>([[0,0], 'north']);
+    const [xyDirection, setXYDirection] = React.useState<[[number, number], string]>([[0,0], '']);
 
     for(let rowIndex = params.boxSize - 1; rowIndex >= 0; rowIndex--) {
         const row = [];
@@ -29,30 +35,31 @@ export default function GridComponent(params: GridComponentProps) {
     const locateCell = (x:number, y:number, direction: string) => {
         const cell = cellRefs.current[`cell-${x},${y}`];
         if (cell) {
-            switch(direction) {
+            switch(direction.toLowerCase()) {
                 case 'north':
-                    cell.children[0].style.borderTop = "2px solid red";
+                    cell.children[0].children[0].style.transform = 'rotate(-0.25turn)';
                     break;
                 case 'south':
-                    cell.children[0].style.borderBottom = "2px solid red";
+                    cell.children[0].children[0].style.transform = 'rotate(90deg)';
                     break;
                 case 'east':
-                    cell.children[0].style.borderRight = "2px solid red";
+                    cell.children[0].children[0].style.transform = 'rotate(0)';
                     break;
                 case 'west':
-                    cell.children[0].style.borderLeft = "2px solid red";
+                    cell.children[0].children[0].style.transform = 'rotate(3.142rad)';
                     break;
                 default:
                     break;
             }
+            cell.children[0].children[0].style.display = 'block';
         }
     };
 
     const refrestPreviousCell = (x:number, y:number, direction: string) => {
         const cell = cellRefs.current[`cell-${x},${y}`];
         if (cell) {
-                cell.children[0].style.border = "1px dashed grey";
-        }
+                cell.children[0].children[0].style.display = 'none';
+            }
     };
 
     React.useEffect(() => {
@@ -80,7 +87,10 @@ export default function GridComponent(params: GridComponentProps) {
                                     <TableCell key={`cell-${col}`}
                                         ref={el => cellRefs.current[`cell-${col}`] = el}>
                                         <Box sx={{ p: 2, border: '1px dashed grey' }}>
-                                            {col}
+                                        <img 
+                                            src={arrow}
+                                            style={{ width: '100%', height: '50px', display: 'none' }}
+                                        />
                                         </Box>
                                     </TableCell>
                                 ))

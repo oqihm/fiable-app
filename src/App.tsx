@@ -1,11 +1,10 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import GridComponent from './Components/grid.component';
 import SearchComponent from './Components/search.component';
 
 function App() {
-  const [gridParam, setGridParam] = React.useState<[[number, number], string]>([[0,0], 'north']);
+  const [gridParam, setGridParam] = React.useState<[[number, number], string]>([[0,0], '']);
 
   const handleOnSubmit = (x: number, y: number, direction: string) => {
     setGridParam([[x, y], direction]);
