@@ -1,24 +1,22 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import GridComponent from './Components/grid.component';
+import SearchComponent from './Components/search.component';
 
 function App() {
+  const [gridParam, setGridParam] = React.useState<[[number, number], string]>([[0,0], 'north']);
+
+  const handleOnSubmit = (x: number, y: number, direction: string) => {
+    setGridParam([[x, y], direction]);
+  };
+
+  const [[xParam, yParam], direction] = gridParam;
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <SearchComponent onSubmit={handleOnSubmit} maxInput={4}></SearchComponent>
+      <GridComponent boxSize={5} x={xParam} y={yParam} direction={direction}/>
     </div>
   );
 }
